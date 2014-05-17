@@ -1,14 +1,14 @@
 from setuptools import setup
 
 setup(
-    name='thebot-draftin',
+    name='thebot-webhooks',
     version='0.1.0',
-    description='A glue between your Pelican/Jekill powered blog and Draftin.com writing service.',
-    keywords='thebot draftin plugin',
+    description='A generic purpose webhooks for TheBot.',
+    keywords='thebot plugin',
     license = 'New BSD License',
     author="Alexander Artemenko",
     author_email='svetlyak.40wt@gmail.com',
-    url='http://github.com/svetlyak40wt/thebot-draftin/',
+    url='http://github.com/svetlyak40wt/thebot-webhooks/',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Plugins',
@@ -17,7 +17,7 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
     ],
-    py_modules=['thebot_draftin'],
+    py_modules=['thebot_webhooks'],
     install_requires=[
         'thebot>=0.3.0',
         'times',
