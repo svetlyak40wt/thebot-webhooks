@@ -1,41 +1,35 @@
-thebot-draftin
-==============
+thebot-webhooks
+===============
 
-A glue between your Pelican/Jekill powered blog and [Draftin.com][draft] writing service.
+A way to run shell scripts in respond to a webhook call.
+This way you could trigger an automatic deployment on push
+to GitHub. Or run unittests, or something else.
 
 Installation
 ------------
 
-Run `pip install thebot-draftin`, then run TheBot with additional
-plugin `draftin` and parameters where you content is stored and how to regenerate a
+Run `pip install thebot-webhooks`, then run TheBot with additional
+plugin `webhooks` and parameters where you content is stored and how to regenerate a
 static content:
 
-    thebot --plugins draftin,and-others --adapters http,and-others \
+    thebot --plugins webhooks --adapters http \
            --http-host 0.0.0.0 --http-port 9991 \
-           --draftin-secret xxx \
-           --documents-dir='site/content' \
-           --update-command='bash -c "cd site && make html"'
+           --webhooks-config hooks.conf
 
-After that, go to [Draft's Places To Publish][publish] and add url `http://machine.where.thebot.is.runing:9991/draftin?secret=xxx`
-as a WebHook.
+Then place something like that into the `hooks.conf`:
 
-That is it. Now, when you'll do a 'Publish' at the Draft, it will send a document to TheBot. TheBot will save this document
-to `site/content` directory using slugified document's name plus `.md` extension. And finally, it will call `make html` command
-to regenerate html content of the blog.
+    github_4567GH67 = dict(
+        command='sudo salt "*" state.highstate',
+    )
 
-How to make this plugin more amazing?
--------------------------------------
+Here `github_4567GH67` is a webhook's handle. It will be accessable at `http://0.0.0.0:9991/webhook/github_4567GH67`.
+And `command` could be any shell command to be run when a HTTP request will hit the handle.
+In this example, we are starting deployment using [SaltStack](http://www.saltstack.com/).
 
-* support notification, and allow TheBot to notify you on successful publishing;
-* track document ids and let user rename a document after publishing (TheBot have to
-  delete old Markdown file and to create a new one. Right now, such renaming will
-  create two published documents.)
-* allow to delete published document using some metadata in the document, like `delete: true`.
+By default, only POST method is allowed. If you need a GET for some wierd reason, then add this such key into
+the dict: `allowed_methods=['GET', 'POST']`.
 
 Authors
 -------
 
 * Alexander Artemenko &lt;svetlyak.40wt@gmail.com>
-
-[draft]: http://draftin.com
-[publish]: https://draftin.com/publishers
