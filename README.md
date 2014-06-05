@@ -29,6 +29,24 @@ In this example, we are starting deployment using [SaltStack](http://www.saltsta
 By default, only POST method is allowed. If you need a GET for some wierd reason, then add this such key into
 the dict: `allowed_methods=['GET', 'POST']`.
 
+More complex config
+-------------------
+
+    github_4567GH67 = dict(
+        command='sudo salt "*" state.highstate',
+        allow_methods=['GET', 'POST'],
+        notify=dict(
+            adapter='mail',
+            params=dict(
+                email='thetest@gmail.com',
+                subject='Test command results',
+            )
+        )
+    )
+
+Here we also specified a channel to notify about command
+execution results.
+
 Authors
 -------
 
